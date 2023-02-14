@@ -6,8 +6,15 @@ public class Calculator {
     BinaryOperator<Integer> plus = (x, y) -> x + y;
     BinaryOperator<Integer> minus = (x, y) -> x - y;
     BinaryOperator<Integer> multiply = (x, y) -> x * y;
-    BinaryOperator<Integer> devide = (x, y) -> x / y;
-
+    BinaryOperator<Integer> devide = (x, y) -> {
+        try {
+            return x / y;
+        }
+        catch (ArithmeticException e) {
+            System.out.println("Деление на ноль!");
+            return 2147483647; // возвращаю максимальное значение для типа Integer
+        }
+    };
     UnaryOperator<Integer> pow = x -> x * x;
     UnaryOperator<Integer> abs = x -> x > 0 ? x : x * -1;
 
