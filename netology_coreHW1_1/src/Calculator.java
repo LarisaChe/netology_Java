@@ -12,7 +12,8 @@ public class Calculator {
         }
         catch (ArithmeticException e) {
             System.out.println("Деление на ноль!");
-            return 2147483647; // возвращаю максимальное значение для типа Integer
+            //return 2147483647; // возвращаю максимальное значение для типа Integer
+            return Integer.MAX_VALUE;
         }
     };
     UnaryOperator<Integer> pow = x -> x * x;
