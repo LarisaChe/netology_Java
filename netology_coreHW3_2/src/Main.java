@@ -8,6 +8,7 @@ public class Main {
     final static String TEMPLATE = "save%d.dat";
     final static String PATH = "D://Games//savegames//";
     final static String ZIP_FILE = "save_dat.zip";
+    final static String PATTERN = "save\\d{1,}.dat";
 
     public static void main(String[] args) {
         // Создать три экземпляра класса GameProgress
@@ -81,8 +82,7 @@ public class Main {
         List<String> resultList = new ArrayList<>();
         File folder = new File(dir);
         for (File item : folder.listFiles()) {
-            if ((!item.isDirectory()) && checkSubstrBegin(item.getName(), TEMPLATE.substring(0, 4))
-                    && checkSubstrEnd(item.getName(), TEMPLATE.substring(TEMPLATE.length() - 3))) {
+            if ((!item.isDirectory()) && (item.getName().matches(PATTERN)))  {
                 if (withPath)
                     resultList.add(checkSlash(dir) + item.getName());
                 else
@@ -97,11 +97,4 @@ public class Main {
         return str.substring(str.length() - 2).equals("//") ? str : str + "//";
     }
 
-    public static boolean checkSubstrBegin(String str, String subStr) {
-        return str.substring(0, subStr.length()).equals(subStr);
-    }
-
-    public static boolean checkSubstrEnd(String str, String subStr) {
-        return str.substring(str.length() - subStr.length()).equals(subStr);
-    }
 }
