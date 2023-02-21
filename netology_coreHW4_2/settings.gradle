@@ -1,0 +1,5 @@
+rootProject.name = 'netology_coreHW4_2'
+include 'db'
+include 'api'
+include 'service'
+
