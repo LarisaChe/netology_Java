@@ -1,0 +1,16 @@
+[
+  {
+    "id": 31,
+    "firstName": "Samanta",
+    "lastName": "Smith",
+    "country": "USA",
+    "age": 53
+  },
+  {
+    "id": 32,
+    "firstName": "Petr",
+    "lastName": "Kuznecov",
+    "country": "RU",
+    "age": 41
+  }
+]
