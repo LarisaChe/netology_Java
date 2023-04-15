@@ -8,12 +8,6 @@ public class CommunicationWithUser {
     public static int POSITION_NUM_ITEM = 0;
     public static int POSITION_NUM_SUBITEM = 1;
 
-    //public User user;
-
-    public void setUser(String userName) {
-
-    }
-
     public static User greeting(String userName) throws IOException {
         System.out.print("Здравствуйте");
         if (userName != null) {
@@ -35,17 +29,6 @@ public class CommunicationWithUser {
             System.out.print(", " + userName);
         }
         System.out.println("!");
-    }
-
-    public static void printList(List<String> list) {
-        for (String s : list) {
-            System.out.println(s);
-        }
-    }
-
-    public static void saveFile() {
-        ProductsList.productsList.stream().forEach(System.out::println);
-
     }
 
     public static boolean selectMenu(String s, int prevMenuItem, User user) throws IOException {
