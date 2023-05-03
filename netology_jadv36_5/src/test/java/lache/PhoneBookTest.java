@@ -20,8 +20,8 @@ public class PhoneBookTest {
 
     @Test
     public void testAdd_DoubleName() {
-        PhoneBook.add("Jhon", "+79011012233");
-        Assertions.assertEquals(1, PhoneBook.add("Jhon", "+79011012233"));
+        int num = PhoneBook.add("Mary", "+79094048899");
+        Assertions.assertEquals(num, PhoneBook.add("Mary", "+79094048899"));
     }
 
     @Test
