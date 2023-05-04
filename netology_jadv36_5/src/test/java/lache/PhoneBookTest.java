@@ -55,4 +55,24 @@ public class PhoneBookTest {
             String s = PhoneBook.findByNumber(null);
         });
     }
+
+    @Test
+    public void testFindByName_Found() {
+        String name = "Helen";
+        String phone = "+79256065544";
+        Assertions.assertEquals(phone, PhoneBook.findByName(name));
+    }
+
+    @Test
+    public void testFindByName_NotFound() {
+        String name = "DDD";
+        String result = String.format(PhoneBook.MSG_NAME_NOT_FOUND, name);
+        Assertions.assertEquals(result, PhoneBook.findByName(name));
+    }
+    @Test
+    public void testFindByName_throwsException() {
+        Assertions.assertThrows(NullPointerException.class, () -> {
+            String s = PhoneBook.findByName(null);
+        });
+    }
 }
