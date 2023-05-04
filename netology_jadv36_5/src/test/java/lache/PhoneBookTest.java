@@ -9,7 +9,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 public class PhoneBookTest {
 
     @BeforeAll
-    public static void testAdd_Record() {
+    public static void testAdd_FirstRecord() {
         Assertions.assertEquals(1, PhoneBook.add("Helen", "+79256065544"));
     }
     @ParameterizedTest
@@ -45,9 +45,9 @@ public class PhoneBookTest {
 
     @Test
     public void testFindByNumber_NotFound() {
-        String name = "Number 81112223344 isn't in PhoneBook";
         String phone = "81112223344";
-        Assertions.assertEquals(name, PhoneBook.findByNumber(phone));
+        String result = String.format(PhoneBook.MSG_NUMBER_NOT_FOUND, phone);//"Number 81112223344 isn't in PhoneBook";
+        Assertions.assertEquals(result, PhoneBook.findByNumber(phone));
     }
     @Test
     public void testFindByNumber_throwsException() {
