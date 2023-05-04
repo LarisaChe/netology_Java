@@ -30,7 +30,11 @@ public class PhoneBook {
     }
 
     public static String findByName(String name) {
-        return null;
+        String result =  phoneBookNames.get(name);
+        if (result == null) {
+            result = String.format(PhoneBook.MSG_NAME_NOT_FOUND, name);
+        }
+        return result;
     }
 
 }
