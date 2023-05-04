@@ -91,7 +91,7 @@ public class PhoneBookTest {
         ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
         System.setOut(stream);
 
-        String params = "Fil, Helen, Jack, Jhon, Mary";
+        String params = "[Fil, Helen, Jack, Jhon, Mary]";
 
         PhoneBook.printAllNames();
 

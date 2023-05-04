@@ -40,6 +40,6 @@ public class PhoneBook {
     }
 
     public static void printAllNames() {
-
+        System.out.println(phoneBookNames.keySet().toString());
     }
 }
