@@ -1,16 +1,24 @@
 package lache;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.mockito.ArgumentCaptor;
+
+import java.io.PrintStream;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 public class PhoneBookTest {
 
     @BeforeAll
     public static void testAdd_FirstRecord() {
-        Assertions.assertEquals(1, PhoneBook.add("Helen", "+79256065544"));
+        assertEquals(1, PhoneBook.add("Helen", "+79256065544"));
     }
     @ParameterizedTest
     @CsvSource({
@@ -20,13 +28,13 @@ public class PhoneBookTest {
     })
     public void testAdd_SomeRecords(String name, String phone) {
         int resultNum = PhoneBook.size() + 1;
-        Assertions.assertEquals(resultNum, PhoneBook.add(name, phone));
+        assertEquals(resultNum, PhoneBook.add(name, phone));
     }
 
     @Test
     public void testAdd_DoubleName() {
         int num = PhoneBook.add("Mary", "+79094048899");
-        Assertions.assertEquals(num, PhoneBook.add("Mary", "+79094048899"));
+        assertEquals(num, PhoneBook.add("Mary", "+79094048899"));
     }
 
     @Test
@@ -40,14 +48,14 @@ public class PhoneBookTest {
     public void testFindByNumber_Found() {
         String name = "Helen";
         String phone = "+79256065544";
-        Assertions.assertEquals(name, PhoneBook.findByNumber(phone));
+        assertEquals(name, PhoneBook.findByNumber(phone));
     }
 
     @Test
     public void testFindByNumber_NotFound() {
         String phone = "81112223344";
         String result = String.format(PhoneBook.MSG_NUMBER_NOT_FOUND, phone);//"Number 81112223344 isn't in PhoneBook";
-        Assertions.assertEquals(result, PhoneBook.findByNumber(phone));
+        assertEquals(result, PhoneBook.findByNumber(phone));
     }
     @Test
     public void testFindByNumber_throwsException() {
@@ -60,19 +68,34 @@ public class PhoneBookTest {
     public void testFindByName_Found() {
         String name = "Helen";
         String phone = "+79256065544";
-        Assertions.assertEquals(phone, PhoneBook.findByName(name));
+        assertEquals(phone, PhoneBook.findByName(name));
     }
 
     @Test
     public void testFindByName_NotFound() {
         String name = "DDD";
         String result = String.format(PhoneBook.MSG_NAME_NOT_FOUND, name);
-        Assertions.assertEquals(result, PhoneBook.findByName(name));
+        assertEquals(result, PhoneBook.findByName(name));
     }
     @Test
     public void testFindByName_throwsException() {
         Assertions.assertThrows(NullPointerException.class, () -> {
             String s = PhoneBook.findByName(null);
         });
+    }
+
+    @AfterAll
+    @Test
+    public static void testPrintAllNames() {
+        PrintStream stream = mock(PrintStream.class);
+        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+        System.setOut(stream);
+
+        String params = "Fil, Helen, Jack, Jhon, Mary";
+
+        PhoneBook.printAllNames();
+
+        verify(stream).println(captor.capture());
+        assertEquals(captor.getValue(), params);
     }
 }
