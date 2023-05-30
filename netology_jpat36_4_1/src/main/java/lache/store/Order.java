@@ -15,6 +15,12 @@ public class Order {
         this.products.addAll(products);
     }
 
+    public Order(String numOrder, OrderStatus orderStatus, List<Product> products) {
+        this.numOrder = numOrder;
+        this.orderStatus = orderStatus;
+        this.products = products;
+    }
+
     public String getNumOrder() {
         return numOrder;
     }
@@ -27,17 +33,17 @@ public class Order {
         return products;
     }
 
-    public void changeOrderStatus(OrderStatus orderStatus) {
-        this.orderStatus = orderStatus;
+    public void nextStatus() {
+        this.orderStatus.next(this.orderStatus);
     }
 
-    public boolean addProduct(Product product) {
+    /*public boolean addProduct(Product product) {
         return this.products.add(product);
     }
 
     public boolean removeProduct(Product product) {
         return this.products.remove(product);
-    }
+    } */
 
     @Override
     public String toString() {

@@ -18,6 +18,13 @@ public class ProductsList {
         } */
     }
 
+    public static void printAllProductsList() {
+        if (productsList.size() == 0) {
+            getProductsFromCSV();
+        }
+        //productsList.stream().map(x -> x.num == 0 ? "Отсутствует " + x.name : x.name).forEach(System.out::println);
+        productsList.stream().forEach(System.out::println);
+    }
     public static Product  findProductByKey(String key) {
         if (productsList.size() == 0) {
             getProductsFromCSV();

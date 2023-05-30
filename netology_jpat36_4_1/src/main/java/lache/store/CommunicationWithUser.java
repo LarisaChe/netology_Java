@@ -2,11 +2,16 @@ package lache.store;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
+import java.util.Scanner;
 
 public class CommunicationWithUser {
     public static Menu MENU = new Menu().getItemsFromCSV();
-    public static int POSITION_NUM_ITEM = 0;
-    public static int POSITION_NUM_SUBITEM = 1;
+    final public static int POSITION_NUM_ITEM = 0;
+    final public static int POSITION_NUM_SUBITEM = 1;
+
+    final public static String SEPARATOR_SPACE = " ";
+    final public static String SEPARATOR_COLON = ":";
 
     public static User greeting(String userName) throws IOException {
         System.out.print("Здравствуйте");
@@ -43,6 +48,10 @@ public class CommunicationWithUser {
                     ProductsList.printProductsList();
                     MENU.printByBelongTo(Integer.valueOf(s));
                     return true;
+                case "10":
+                    ProductsList.printAllProductsList();
+                    MENU.printByBelongTo(Integer.valueOf(s));
+                    return true;
                 case "2":
                     user.basket.forEach(System.out::println);
                     MENU.printByBelongTo(Integer.valueOf(s));
@@ -54,9 +63,15 @@ public class CommunicationWithUser {
                     createOrder(user);
                     return true;
                 case "3":
+                    user.orders.stream()
+                            .filter(x -> !x.orderStatus.equals(OrderStatus.CANCELLED) && !x.orderStatus.equals(OrderStatus.COMPLETED))
+                            .map(x -> x.numOrder + ": " + x.orderStatus.getDescription() + ".")
+                            .forEach(System.out::println);
                     MENU.printByBelongTo(Integer.valueOf(s));
                     return true;
                 case "4":
+                    user.orders.stream().map(x -> x.numOrder + ": " + x.orderStatus.getDescription() + ".")
+                            .forEach(System.out::println);
                     MENU.printByBelongTo(Integer.valueOf(s));
                     return true;
                 case "5":
@@ -84,7 +99,10 @@ public class CommunicationWithUser {
     }
 
     private static void commands(String s, int prevMenuItem, User user) {
-        String[] ss = s.split(" ");
+        String[] ss = s.split(SEPARATOR_COLON);
+        if (ss.length <= 1) {
+            ss = s.split(SEPARATOR_SPACE);
+        }
         int command = Integer.valueOf(ss[0]);
         String param1 = ss.length >= 2 ? ss[1] : null;
         int param2 = ss.length >= 3 ? Integer.valueOf(ss[2]) : 0;
@@ -95,18 +113,74 @@ public class CommunicationWithUser {
                 break;
             case 12:
                 addProductToBasket(param1, param2, user.basket);
+                user.basket.forEach(System.out::println);
                 break;
-            case 2:
-                MENU.printByBelongTo(Integer.valueOf(s));
-
+            case 21:
+                decreaseProductInBasket(param1, param2, user.basket);
+                user.basket.forEach(System.out::println);
+                break;
+            case 22:
+                increaseProductInBasket(param1, param2, user.basket);
+                user.basket.forEach(System.out::println);
+                break;
+            case 23:
+                deleteProductFromBasket(param1, user.basket);
+                user.basket.forEach(System.out::println);
+                break;
             case 3:
-                MENU.printByBelongTo(Integer.valueOf(s));
-
+                System.out.println("Заказ " + param1 + user.getOrderStatus(param1).getDescription() + ".");
+                break;
+            case 30:
+                System.out.println("Отменить заказ " + param1 +"? (Y/N или Да/Нет)");
+                Scanner scanner = new Scanner(System.in);
+                String resp = scanner.nextLine();
+                if (resp.trim().toUpperCase().equals("Y") ||
+                        resp.trim().toUpperCase().equals("ДА")) {
+                    if (user.OrderCancel(param1)) {
+                        System.out.println("Заказ " + param1 + " отменен.");
+                    }
+                    /*else {
+                        System.out.println("Заказ " + param1 + " отменен.");
+                    }*/
+                }
+                break;
             case 4:
                 MENU.printByBelongTo(Integer.valueOf(s));
 
             default:
 
+        }
+    }
+
+    private static void increaseProductInBasket(String productKey, int num, List<Product> basket) {
+        Product product = basket.stream().filter(x -> x.key.contains(productKey)).findFirst().get();
+        if (product != null) {
+            basket.remove(product);
+            addProductToBasket(productKey, num, basket);
+        } else {
+            System.out.println("Продукт с ключом " + productKey + " не найден");
+        }
+    }
+
+    private static void decreaseProductInBasket(String productKey, int num, List<Product> basket) {
+        Product product = basket.stream().filter(x -> x.key.contains(productKey)).findFirst().get();
+        if (product != null) {
+            basket.remove(product);
+            if (product.num > num) {
+                product.num = product.num - num;
+                }
+            basket.add(product);
+        } else {
+            System.out.println("Продукт с ключом " + productKey + " не найден");
+        }
+    }
+
+    private static void deleteProductFromBasket(String productKey, List<Product> basket) {
+        Optional<Product> product = basket.stream().filter(x -> x.key.contains(productKey)).findFirst();
+        if (product != null) {
+            basket.remove(product);
+        } else {
+            System.out.println("Продукт с ключом " + productKey + " не найден");
         }
     }
 

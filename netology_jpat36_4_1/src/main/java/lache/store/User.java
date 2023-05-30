@@ -22,4 +22,33 @@ public class User {
                 ", basket=" + basket +
                 '}';
     }
+
+    public Order findOrder(String numOrder) {
+        for (Order order : orders) {
+            if (order.numOrder.equals(numOrder)) {
+                return order;
+            }
+        }
+        return null;
+    }
+
+    public OrderStatus getOrderStatus(String numOrder) {
+        Order order = findOrder(numOrder);
+        if (order != null) {
+            return order.orderStatus;
+        }
+        else {
+            return null;
+        }
+    }
+
+    public boolean OrderCancel(String numOrder) {
+        Order order = findOrder(numOrder);
+        if (order != null) {
+            if (order.orderStatus.cancel(order.orderStatus) == OrderStatus.CANCELLED) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
