@@ -11,8 +11,9 @@ public class ThreadsSockets extends Thread {
 
     public ThreadsSockets(Socket socket) throws IOException {
         this.socket = socket;
-
-        in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        InputStreamReader isr = new InputStreamReader(socket.getInputStream());
+        in = new BufferedReader(isr);
+        //in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
         start();
     }

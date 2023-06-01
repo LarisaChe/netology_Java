@@ -9,7 +9,7 @@ import java.net.Socket;
 import java.util.Map;
 import java.util.Scanner;
 
-public class MainClient1 {
+public class MainClient1{
     private static final String settingsClientFileName = "settings.txt";
 
     public static void main(String[] args) throws IOException {
@@ -55,7 +55,6 @@ public class MainClient1 {
                 String msg = "";
                 //while (true) {
                 while (!msg.equals(Commands.FINISH_WORK.getCommand())) {
-                    //System.out.print("> ");
                     prompt();
                     msg = scanner.nextLine();
                     out.println(msg);
